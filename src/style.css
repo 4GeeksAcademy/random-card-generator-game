@@ -1,5 +1,71 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
 body{
-    background: white;
+    background-image: url('./assets/img/poker.jpg')
+}
+
+h1{
+    font-size: 100px;
+}
+
+.heart{
+    color: red;
+}
+
+.card {
+    background-color: #fff;
+    margin: 0 auto;
+    width: 400px;
+    padding: 1px 1em 0 8px;
+    color: black;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    aspect-ratio: 2/3; 
+}
+
+.card-top-icon,
+.card-footer-icon {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+}
+
+.card-footer-icon {
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.card-number {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-number{
+    height: 270px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn{
+    background-color: #e63946;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover{
+    background-color: #c9303e
+}
+
+.card-footer-icon > h1 {
+    transform: rotate(180deg);
 }
