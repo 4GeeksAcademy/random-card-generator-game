@@ -17,11 +17,13 @@
   <div class="d-flex justify-content-center align-items-center text-center">
     <h2 class="mt-5 text-white">Your Card</h2>
   </div>
+<!-- carta 1 -->
+ <div class= "container d-flex">
 
-  <div class="card mt-3">
-    <div class="card-top-icon">
-      <h1></h1>
-    </div>
+   <div class="card mt-3">
+     <div class="card-top-icon">
+       <h1></h1>
+      </div>
     <div class="card-number">
       <h1></h1>
     </div>
@@ -29,13 +31,27 @@
       <h1></h1>
     </div>
   </div>
-
+  <h1 class = "text-light"> VS</h1>
+  <!-- carta 2 para la pc-->
+  <div class="card mt-3" >
+    <div class="card-top-icon">
+      <h1  id="pcCardTop"></h1>
+    </div>
+    <div class="card-number" >
+      <h1 id="pcCardNumber"></h1>
+    </div>
+    <div class="card-footer-icon" >
+      <h1 id="pcCardNumber"></h1>
+    </div>
+  </div>
+  
+</div>
   <div class="d-flex justify-content-center align-items-center text-center mt-5">
-    <button type="button" class="btn btn-primary btn-lg me-3" onclick="generateCard()">Pick other Card</button>
+    <button type="button" class="btn btn-primary btn-lg me-3" onclick="generateCard(pc)">Pick other Card</button>
   </div>
 
   <!-- Inputs para ajustar el tamaño de la carta -->
-  <div class="d-flex justify-content-center align-items-center text-center mt-3">
+  <!-- <div class="d-flex justify-content-center align-items-center text-center mt-3">
     <div class="form-group mx-2">
       <label for="cardWidth" class="text-white">Width (px)</label>
       <input type="number" class="form-control" id="cardWidth" placeholder="Ej: 200" onchange="adjustCardSize()" />
@@ -44,7 +60,7 @@
       <label for="cardHeight" class="text-white">Height (px)</label>
       <input type="number" class="form-control" id="cardHeight" placeholder="Ej: 300" onchange="adjustCardSize()" />
     </div>
-  </div>
+  </div> -->
 
 
   <!-- Do not delete this script tag, this is what connects your HTML with the Javascript code -->
