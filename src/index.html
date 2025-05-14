@@ -14,46 +14,86 @@
 
 <body>
   <!-- Write your HTML code here, you can delete everything withing the body tags -->
-  <div class="d-flex justify-content-center align-items-center text-center">
-    <h2 class="mt-5 text-white">Your Card</h2>
-  </div>
-<!-- carta 1 -->
- <div class= "container d-flex">
-
-   <div class="card mt-3">
-     <div class="card-top-icon">
-       <h1></h1>
-      </div>
-    <div class="card-number">
-      <h1></h1>
+  <div class="row align-items-center">
+    
+    <div class="col text-end">
+      <h2 class="mt-5 text-white pe-2" id="playerWins">Player Wins: 0 </h2>
+      <h4 class="text-white pe-4" id="playerRate"> Win rate: 0%</h4>
     </div>
-    <div class="card-footer-icon">
-      <h1></h1>
+    <div class="col-2 text-center pt-5">
+      <button class="btn btn-primary" id="startButton">Start Game!</button>
+      <h5 class="text-white pt-3 mb-0" id="timer">30s</h5>
+      
     </div>
-  </div>
-  <h1 class = "text-light"> VS</h1>
-  <!-- carta 2 para la pc-->
-  <div class="card mt-3" >
-    <div class="card-top-icon">
-      <h1  id="pcCardTop"></h1>
-    </div>
-    <div class="card-number" >
-      <h1 id="pcCardNumber"></h1>
-    </div>
-    <div class="card-footer-icon" >
-      <h1 id="pcCardNumber"></h1>
+    <div class="col text-start">
+      <h2 class="mt-5 me-5 text-white" id="computerWins">Computer Wins: 0 </h2>
+      <h4 class="text-white pe-5" id="computerRate"> Win rate: 0%</h4>
     </div>
   </div>
   
 </div>
-  <div class="d-flex justify-content-center align-items-center text-center mt-5">
-    <button type="button" class="btn btn-primary btn-lg me-3" onclick="generateCard(pc)">Pick other Card</button>
+<div class="container d-flex gap-4 justify-content-center align-items-center">
+  
+  <!-- carta del jugador  -->
+  <div class="playerCard">
+    <div class="cards mt-3">
+      <div class="player-card-top-icon">
+        <h1></h1>
+      </div>
+      <div class="player-card-number">
+        <h1></h1>
+      </div>
+      <div class="player-card-footer-icon">
+        <h1></h1>
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-center align-items-center text-center mt-5">
+      <button type="button" class="btn btn-primary btn-lg me-3" id="playerBtn" onclick="play()">Player Pick</button>
+    </div>
+  </div>
+  <div class="flex-column">
+    <h1 class="text-light pb-5">
+      VS
+    </h1>
+  </div>
+  <!-- carta de la pc -->
+  <div class="computerCard">
+    
+    <div class="cards mt-3">
+      <div class="computer-card-top-icon">
+        <h1></h1>
+      </div>
+      <div class="computer-card-number">
+        <h1></h1>
+      </div>
+      <div class="computer-card-footer-icon">
+        <h1></h1>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center text-center mt-5">
+      <button type="button" class="btn btn-primary btn-lg me-3" disabled>Computer Pick</button>
+    </div>
+  </div>
+</div>
+<div class="card m-5" style="width: 40rem;">
+  <div class="card-header mb-0 pb-0 pt-2"><strong id="empates">Draws : 0   Draw Rate: 0%</strong></div>
+  <div class="card-header">
+    <h3>Historial de partida:</h3>
+  </div>
+  <div class="card-body overflow-auto" style="max-height: 200px;" id="historial">
+
   </div>
 
-  <!-- Inputs para ajustar el tamaño de la carta -->
-  <!-- <div class="d-flex justify-content-center align-items-center text-center mt-3">
-    <div class="form-group mx-2">
-      <label for="cardWidth" class="text-white">Width (px)</label>
+</div>
+
+
+
+
+<!-- Inputs para ajustar el tamaño de la carta -->
+<!-- <div class="d-flex justify-content-center align-items-center text-center mt-3">
+  <div class="form-group mx-2">
+    <label for="cardWidth" class="text-white">Width (px)</label>
       <input type="number" class="form-control" id="cardWidth" placeholder="Ej: 200" onchange="adjustCardSize()" />
     </div>
     <div class="form-group mx-2">

@@ -12,10 +12,10 @@ h1{
     color: red;
 }
 
-.card {
+.cards {
     background-color: #fff;
     margin: 0 auto;
-    width: 400px;
+    width: 300px;
     padding: 1px 1em 0 8px;
     color: black;
     border-radius: 20px;
@@ -26,33 +26,33 @@ h1{
     aspect-ratio: 2/3; 
 }
 
-.card-top-icon,
-.card-footer-icon {
+.player-card-top-icon,
+.player-card-footer-icon,
+.computer-card-top-icon,
+.computer-card-footer-icon {
     flex: 1;
     display: flex;
     align-items: flex-start;
 }
 
-.card-footer-icon {
-    align-items: flex-end;
-    justify-content: flex-end;
-}
-
-.card-number {
+.player-card-number,
+.computer-card-number {
     flex: 2;
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
-.card-number{
+.player-card-number,
+.computer-card-number{
     height: 270px;
     display: flex;
     justify-content: center;
 }
 
-.btn{
-    background-color: #e63946;
+#playerBtn{
+    background-color: #bb1f2c;
     color: #ffffff;
     border: none;
     padding: 12px 20px;
@@ -62,10 +62,11 @@ h1{
     transition: background-color 0.3s ease;
 }
 
-.btn:hover{
-    background-color: #c9303e
+#playerBtn:hover{
+    background-color: #f04c5a
 }
 
-.card-footer-icon > h1 {
+.player-card-footer-icon,
+.computer-card-footer-icon {
     transform: rotate(180deg);
 }

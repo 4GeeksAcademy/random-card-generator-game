@@ -6,24 +6,34 @@ import "./assets/img/4geeks.ico";
 
 const cardValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const cardSuits = ['♦', '♥', '♠', '♣'];
+const historialGame = document.getElementById("historial");
+const playerWins = document.getElementById('playerWins');
+const playerRates = document.getElementById('playerRate');
+const computerWin = document.getElementById('computerWins');
+const computerRate = document.getElementById('computerRate');
+const tiesText = document.getElementById('empates');
+const timetText = document.getElementById('timer');
+const playerButton = document.getElementById('playerBtn');
+let handsplayed = 0;
+let playerPlayed = false;
 
-//player
+let userWins = 0;
+let computerWins = 0;
+let ties = 0;
 
-window.player = {
-   topIcon : document.querySelector('.card-top-icon h1'),
-   centerValue : document.querySelector('.card-number h1'),
-   bottomIcon : document.querySelector('.card-footer-icon h1'),
-};
+//timers
+let gameTimer;
+let inactivityTimer;
+let timeLeft = 0;
 
-window.pc ={
-   topIcon : document.getElementById('pcCardTop'),
-   centerValue : document.getElementById('pcCardNumber'),
-   bottomIcon : document.getElementById('pcCardBot'),
-}
+//boton con funcion para empezar el juego
+const buttonStart = document.getElementById('startButton');
+buttonStart.addEventListener('click', startGame);
+
 const getRandomIndex = (length) => {
   return Math.floor(Math.random() * length);
 }
-
+//funcion que genera  carta aleatoria 
 const generateRandomCard = () => {
   const suit = cardSuits[getRandomIndex(cardSuits.length)];
   const value = cardValues[getRandomIndex(cardValues.length)];
@@ -32,12 +42,57 @@ const generateRandomCard = () => {
     value
   }
 }
-//carta al jugador.
+
+//actualizador de textos
+function textUpdate() {
+  let numFixed1 = 0;
+  let numFixed2 = 0;
+  let tiesFixed = 0;
+  if (handsplayed != 0) {
+    numFixed1 = (userWins / handsplayed) * 100;
+    numFixed2 = (computerWins / handsplayed) * 100;
+    tiesFixed = (ties / handsplayed) * 100;
+  }
+  playerWins.innerHTML = `Player Wins: ${userWins}`;
+  playerRates.innerHTML = `Win rate: ${numFixed1.toFixed(2)}%`;
+  computerWin.innerHTML = `Computer Wins: ${computerWins}`;
+  computerRate.innerHTML = `Win rate: ${numFixed2.toFixed(2)}%`;
+  tiesText.innerHTML = `Ties: ${ties} ties rate:${tiesFixed.toFixed(2)}%`
+}
+//funcion de ganar 
+const generateWinner = (playerCard, computerCard) => {
+  const userValue = cardValues.indexOf(playerCard);
+  const computerValue = cardValues.indexOf(computerCard);
+  console.log(`Usuario index: ${userValue}`)
+  console.log(`Computer index: ${computerValue}`)
+  handsplayed++;
+  //comprobacion de ganador
+  if (userValue > computerValue) {
+    userWins += 1;
+    let p = `El usuario Ha Ganado!`;
+    addToHistorial(p);
+  }
+  else if (computerValue > userValue) {
+    computerWins += 1
+    let p = `La computadora Ha Ganado!`;
+    addToHistorial(p);
+  } else {
+    let p = `Empate!`;
+    ties += 1;
+    addToHistorial(p);
+  }
+  textUpdate();
+}
+//funcion que muestra la carta en el DOM para ambos casos
 window.generateCard = function (player) {
   const card = generateRandomCard();
-    player.topIcon.textContent = card.suit;
-  player.bottomIcon.textContent = card.suit;
-  player.centerValue.textContent = card.value;
+  const topIcon = document.querySelector(`.${player}-card-top-icon h1`);
+  const centerValue = document.querySelector(`.${player}-card-number h1`);
+  const bottomIcon = document.querySelector(`.${player}-card-footer-icon h1`);
+
+  topIcon.textContent = card.suit;
+  bottomIcon.textContent = card.suit;
+  centerValue.textContent = card.value;
 
   if (card.suit === '♥') {
     topIcon.classList.add('heart');
@@ -46,20 +101,97 @@ window.generateCard = function (player) {
     topIcon.classList.remove('heart');
     bottomIcon.classList.remove('heart');
   }
+  return card;
+}
+/* tamaño de la carta con inputs, del ejercicio pasado
+
+window.adjustCardSize = function () {
+  const width = document.getElementById("cardWidth").value;
+  const height = document.getElementById("cardHeight").value;
+  const cardElement = document.querySelector(".card");
+
+  if (width) cardElement.style.width = `${width}px`;
+  if (height) cardElement.style.height = `${height}px`;
+}
+*/
+
+//funcion de jugar al presionar el boton de Pick a card
+window.play = function () {
+  
+  const playerCard = generateCard('player');
+  const computerCard = generateCard('computer');
+  playerPlayed = true;
+  const winner = generateWinner(playerCard.value, computerCard.value);
+  startInactivityTimer();
+  console.log(winner);
+
 }
 
-
-// window.adjustCardSize = function () {
-//   const width = document.getElementById("cardWidth").value;
-//   const height = document.getElementById("cardHeight").value;
-//   const cardElement = document.querySelector(".card");
-
-//   if (width) cardElement.style.width = `${width}px`;
-//   if (height) cardElement.style.height = `${height}px`;
-// }
-
 window.onload = function () {
-  setInterval(generateCard(pc), 1000);
-  console.log(generateCard(pc));
-  generateCard(pc);
+  generateCard('player');
+  generateCard('computer');
+  playerButton.disabled = true;
+  setTimeout(() => {
+    alert('Al darle Start Game empezara una partida de 30 segundos, si no le das en 5 segundos a seleccionar carta la pc gana automaticamente! Buena suerte.');
+
+  }, 100)
+}
+
+function addToHistorial(winner) {
+  const p = document.createElement('p');
+  p.textContent = winner;
+  historialGame.append(p);
+}
+//timer de juego con contador.
+function startGame() {
+  //estas 6 lineas reinician el juego
+  playerButton.disabled = false;
+  clear(historialGame);
+  playerPlayed = false;
+  timeLeft = 30;
+  timetText.innerHTML = `${timeLeft}s`;
+  buttonStart.disabled = true;
+  alert('Empieza el juego!');
+//timer de 5 seg para el jugador
+  startInactivityTimer();
+  //timer de 30 seg para jugar 
+  gameTimer = setInterval(() => {
+    timeLeft--;
+    timetText.innerHTML = `${timeLeft}s`;
+
+    if (timeLeft <= 0) {
+      timetText.innerHTML = `${timeLeft}s`;
+      endGame();
+    }
+  }, 1000);
+
+}
+
+function startInactivityTimer() {
+  clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(() => {
+    generateCard('computer');
+    computerWins++;
+    handsplayed++;
+    let p = 'el jugador no jugo carta, gana la pc!'
+    addToHistorial(p);
+    textUpdate();
+    startInactivityTimer(); // reiniciar el tiempo de inactividad
+  }, 5000);
+}
+//empezamos nueva partida, borramos toda la info anterior
+function clear(wheretoClear) {
+  wheretoClear.querySelectorAll('p').forEach(element => element.remove());
+  handsplayed = 0;
+  userWins = 0;
+  computerWins = 0;
+  ties = 0;
+  textUpdate();
+}
+
+function endGame() {
+  clearInterval(gameTimer);
+  clearTimeout(inactivityTimer);
+  alert('¡Terminó el juego!');
+  buttonStart.disabled = false;
 }
